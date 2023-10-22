@@ -1,21 +1,30 @@
-import pynput
+import pyautogui
+import time
 
-mouse = pynput.mouse.Controller()
-keyboard = pynput.keyboard.Controller()
+# Define the grid coordinates
+left_upper_corner = (533, 153)
+right_lower_corner = (1513, 686)
 
-stop_program = False  # Initialize a variable to control program termination
+repetitions = 30
+start_x, start_y = 533,153
+end_x, end_y = 1513,686
+step = 69
+# Calculate the step size for the grid
 
-def on_click(x, y, button, pressed):
-    global stop_program  # Declare 'stop_program' as a global variable
-    if pressed and button == pynput.mouse.Button.right:
-        stop_program = True
-    elif pressed and button == pynput.mouse.Button.left:
-        keyboard.press('2')
-        keyboard.release('2')
-    
 
-    if stop_program:
-        return False  # Stop the listener
+# Delay before starting to give you time to focus on the target area
+time.sleep(3)
+pyautogui.PAUSE = 0.0
+pyautogui.MINIMUM_DURATION = 0.0
+# Click in a grid-like pattern
+for repetition in range(repetitions):
+    for y in range(start_y, end_y+1, step):
+        for x in range(start_x, end_x+1, step):
 
-with pynput.mouse.Listener(on_click=on_click) as listener:
-    listener.join()
+            pyautogui.click(x, y)
+            #time.sleep(0.5)  # Adjust the delay as needed
+
+
+
+# Done
+print("Grid clicks completed.")
